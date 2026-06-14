@@ -11,9 +11,9 @@ Static website starter for a company homepage.
 - `css/mobile.20260614-v1.css` - mobile-only experiment fork kept out of the production entry
 - `js/responsive-controller.20260614-v1.js` - shared responsive state helper for breakpoint/input/orientation metadata
 - `js/device-router.20260614-v1.js` - old routing experiment, no longer loaded by production pages
-- `js/network.20260614-v20.js` - animated canvas network module, refined 23-second DD morph with longer hold, robust phone-detected vertical DD, fuller mobile letter curves, stable readable mobile labels, and draggable/tappable names
+- `js/network.20260614-v21.js` - animated canvas network module, refined 23-second DD morph with protected DD targets, longer hold, robust phone-detected vertical DD, stable readable mobile labels, and draggable/tappable names
 - `js/main.20260608-v8.js` - homepage stable event accordion switching, append-only load-more video grid, YouTube link slots, and scroll-card motion
-- `js/mobile-network.20260614-v8.js` - mobile-only network module fork
+- `js/mobile-network.20260614-v9.js` - mobile-only network module fork
 - `js/mobile-main.20260614-v1.js` - mobile-only homepage interaction fork
 - `js/project.20260608-v1.js` - detail page rendering from `?id=...`
 - `js/person.20260608-v1.js` - person detail page rendering from `?name=...`
