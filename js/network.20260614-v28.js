@@ -1,4 +1,4 @@
-const NETWORK_SCRIPT_VERSION = "network.20260614-v20";
+const NETWORK_SCRIPT_VERSION = "network.20260614-v28";
 console.info(`[site] ${NETWORK_SCRIPT_VERSION}`);
 
 const canvas = document.querySelector("#networkCanvas");
@@ -7,6 +7,9 @@ const profilePanel = document.querySelector("#profilePanel");
 const profileTitle = document.querySelector("#profilePanelTitle");
 const profileSummary = document.querySelector("#profilePanelSummary");
 const profileMedia = document.querySelector(".profile-media-wall span");
+const profileProjectTitle = document.querySelector("#profileProjectTitle");
+const profileProjectDescription = document.querySelector("#profileProjectDescription");
+const profileSocialLinks = document.querySelectorAll("[data-profile-social]");
 const profileCloseButtons = document.querySelectorAll("[data-profile-close]");
 
 if (canvas) {
@@ -136,6 +139,11 @@ if (canvas) {
       .replace(/\([^)]*\)/g, "")
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-|-$/g, "");
+  }
+
+  function profileUrl(node, channel = "") {
+    const suffix = channel ? `#${channel}` : "";
+    return `person.html?name=${encodeURIComponent(node.name)}${suffix}`;
   }
 
   function easeInOut(value) {
@@ -293,8 +301,31 @@ if (canvas) {
     if (!profilePanel) return;
 
     profileTitle.textContent = node.name;
-    profileSummary.textContent = "A homepage-expanded space for related works, credits, films, images, and notes.";
+    profileSummary.textContent = "Soft Coordinates is an interactive web installation that maps personal memories through names, gestures and shifting digital traces. Visitors are invited to move through a constellation of profiles, images and keywords, where each participant becomes both an individual node and part of a larger collective system. Rather than presenting identity as fixed information.";
     profileMedia.textContent = node.slug;
+    if (profileProjectTitle) profileProjectTitle.textContent = "Project name";
+    if (profileProjectDescription) profileProjectDescription.textContent = "Soft Coordinates is an interactive web installation that maps personal memories through names, gestures and shifting digital traces. Visitors are invited to move through a constellation of profiles, images and keywords, where each participant becomes both an individual node and part of a larger collective system. Rather than presenting identity as fixed information, the project treats it as something relational, fluid and continuously reconfigured through connection.";
+    profileSocialLinks.forEach((link) => {
+      const channel = link.dataset.profileSocial;
+      if (channel === "email") {
+        link.href = `mailto:${node.slug}@example.com`;
+        link.textContent = `Email: ${node.slug}@example.com`;
+      } else if (channel === "instagram") {
+        link.href = profileUrl(node, "instagram");
+        link.textContent = `Instagram: @${node.slug}`;
+      } else if (channel === "youtube") {
+        link.href = profileUrl(node, "youtube");
+        link.textContent = "YouTube: channel";
+      } else if (channel === "website") {
+        link.href = profileUrl(node, "website");
+        link.textContent = "Website: personal page";
+      } else if (channel === "linkedin") {
+        link.href = profileUrl(node, "linkedin");
+        link.textContent = "LinkedIn:";
+      } else {
+        link.href = profileUrl(node);
+      }
+    });
     profilePanel.hidden = false;
     requestAnimationFrame(() => {
       profilePanel.classList.add("is-open");
@@ -406,8 +437,54 @@ if (canvas) {
     ctx.moveTo(a.x, a.y);
     ctx.lineTo(b.x, b.y);
     ctx.strokeStyle = isActive ? `${purple.line} ${alpha})` : `rgba(231, 240, 255, ${alpha})`;
-    ctx.lineWidth = isActive ? 1.2 : 1.12;
+    ctx.lineWidth = isActive ? 1.24 : 1.18;
     ctx.stroke();
+  }
+
+  function drawNeighborConnectionField(width, height, morphAmount) {
+    const isPhone = isPhoneLayout(width);
+    const minLinks = isPhone ? 10 : 12;
+    const maxLinks = isPhone ? 12 : 14;
+    const maxFadeDistance = Math.max(Math.min(width, height) * (isPhone ? 0.78 : 0.48), 260);
+    const baseAlpha = isPhone ? 0.1 : 0.13;
+    const morphBoost = 1 + morphAmount * 0.18;
+    const drawn = new Set();
+    const linkCounts = new Array(nodes.length).fill(0);
+    const edges = [];
+
+    for (let i = 0; i < nodes.length; i += 1) {
+      const a = nodes[i];
+      const nearest = nodes
+        .map((node, index) => ({
+          node,
+          index,
+          distance: index === i ? Infinity : Math.hypot(a.x - node.x, a.y - node.y)
+        }))
+        .sort((left, right) => left.distance - right.distance);
+
+      for (let n = 0; n < nearest.length && linkCounts[i] < minLinks; n += 1) {
+        const { node: b, index: j, distance } = nearest[n];
+        const key = i < j ? `${i}:${j}` : `${j}:${i}`;
+        if (drawn.has(key) || linkCounts[j] >= maxLinks) continue;
+        drawn.add(key);
+        linkCounts[i] += 1;
+        linkCounts[j] += 1;
+        edges.push({ a, b, distance });
+      }
+    }
+
+    ctx.save();
+    ctx.lineWidth = isPhone ? 0.62 : 0.82;
+    edges.forEach(({ a, b, distance }) => {
+      const distanceFade = Math.max(0.34, 1 - distance / maxFadeDistance);
+      const alpha = baseAlpha * morphBoost * distanceFade;
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.strokeStyle = `rgba(231, 240, 255, ${alpha})`;
+      ctx.stroke();
+    });
+    ctx.restore();
   }
 
   function drawActiveGroupLines(active, time) {
@@ -596,8 +673,10 @@ if (canvas) {
 
     node.labelX = originalX;
     node.labelY = originalY;
-    node.labelVisible = false;
-    return false;
+    occupiedRects.push(getLabelRect(node, labelSize));
+    node.labelVisible = true;
+    node.labelHoldUntil = time + 1200;
+    return true;
   }
 
   function updateLabelMetrics(node, width, isActive, morphAmount = 0) {
@@ -703,19 +782,8 @@ if (canvas) {
     }
     canvas.style.cursor = drag.active ? "grabbing" : activeNode ? "grab" : "default";
 
+    drawNeighborConnectionField(width, height, morphAmount);
     drawDDInternalLines(morphAmount);
-
-    for (let i = 0; i < nodes.length; i += 1) {
-      for (let j = i + 1; j < nodes.length; j += 1) {
-        const a = nodes[i];
-        const b = nodes[j];
-        const distance = Math.hypot(a.x - b.x, a.y - b.y);
-        const threshold = Math.min(width, 1280) * 0.13;
-        if (distance < threshold) {
-          drawLine(a, b, 0.22 * (1 - distance / threshold));
-        }
-      }
-    }
 
     if (activeNode) {
       drawActiveGroupLines(activeNode, time);
@@ -824,21 +892,11 @@ if (canvas) {
     if (!drag.node) return;
 
     if (drag.active) {
-      if (currentMorphAmount > 0.58) {
-        drag.node.ddX = drag.x;
-        drag.node.ddY = drag.y;
-      } else if (currentMorphAmount < 0.42) {
+      if (currentMorphAmount < 0.58) {
         drag.node.baseX = drag.x;
         drag.node.baseY = drag.y;
         drag.node.scatterX = drag.x;
         drag.node.scatterY = drag.y;
-      } else {
-        drag.node.baseX = drag.x;
-        drag.node.baseY = drag.y;
-        drag.node.scatterX = drag.x;
-        drag.node.scatterY = drag.y;
-        drag.node.ddX = drag.x;
-        drag.node.ddY = drag.y;
       }
     } else {
       openProfilePanel(drag.node);
