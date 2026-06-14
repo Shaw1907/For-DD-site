@@ -189,6 +189,7 @@ a {
   z-index: 1;
   display: block;
   pointer-events: auto;
+  touch-action: none;
 }
 
 .hero-copy {
