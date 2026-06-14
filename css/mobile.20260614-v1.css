@@ -362,6 +362,8 @@ a {
   color: rgba(246, 244, 237, 0.72);
   font-size: clamp(17px, 2vw, 22px);
   line-height: 1.5;
+  text-align: justify;
+  text-wrap: pretty;
 }
 
 .profile-content {
@@ -400,6 +402,24 @@ a {
   color: rgba(246, 244, 237, 0.72);
   font-size: 17px;
   line-height: 1.62;
+  text-align: justify;
+  text-wrap: pretty;
+}
+
+.profile-socials {
+  position: static;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  padding: 68px 22px 20px;
+}
+
+.profile-socials a {
+  color: rgba(246, 244, 237, 0.9);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-decoration: none;
 }
 
 .event-section {
@@ -977,7 +997,7 @@ a {
   }
 
   .profile-hero {
-    padding-top: 72px;
+    padding-top: 18px;
   }
 
   .profile-media-wall {

@@ -349,6 +349,8 @@ a {
   color: rgba(246, 244, 237, 0.9);
   font-size: clamp(18px, 1.1vw, 22px);
   line-height: 1.18;
+  text-align: justify;
+  text-wrap: pretty;
 }
 
 .profile-hero strong {
@@ -392,6 +394,7 @@ a {
   font-size: clamp(18px, 1.05vw, 22px);
   line-height: 1.14;
   text-align: justify;
+  text-wrap: pretty;
 }
 
 .profile-copy strong {
@@ -962,10 +965,16 @@ a {
 
   .profile-socials {
     position: static;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     width: auto;
-    padding: 0 clamp(22px, 5vw, 74px) 30px;
+    padding: 82px clamp(22px, 5vw, 74px) 24px;
+    gap: 10px 18px;
+  }
+
+  .profile-socials a {
+    font-size: 15px;
+    line-height: 1.35;
   }
 
   .profile-hero,
@@ -1075,7 +1084,7 @@ a {
   }
 
   .profile-hero {
-    padding: 72px 22px 32px;
+    padding: 18px 22px 32px;
   }
 
   .profile-hero h2 {
@@ -1091,7 +1100,9 @@ a {
   }
 
   .profile-socials {
-    padding: 0 22px 30px;
+    grid-template-columns: 1fr;
+    padding: 68px 22px 20px;
+    gap: 8px;
   }
 
   .profile-socials a {
