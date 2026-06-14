@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Person detail page template for related works.">
+    <title>Person | Company Studio</title>
+    <link rel="stylesheet" href="css/styles.css?v=20260608-v23">
+  </head>
+  <body>
+    <header class="site-header solid" aria-label="Primary navigation">
+      <a class="brand" href="index.html" aria-label="Company Studio home">
+        <span class="brand-mark home-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M3 10.8 12 3l9 7.8V21a1 1 0 0 1-1 1h-5.5v-6.8h-5V22H4a1 1 0 0 1-1-1V10.8Z"></path>
+          </svg>
+        </span>
+        <span class="brand-name">Company Studio</span>
+      </a>
+      <nav class="nav-links" aria-label="Main menu">
+        <a href="index.html#work">Work</a>
+        <a href="index.html#network">Network</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main class="person-page">
+      <section class="person-hero">
+        <a class="back-link" href="index.html#network">Back to network</a>
+        <p class="project-kicker">Network Profile</p>
+        <h1 id="personName">Selected Name</h1>
+        <p id="personSummary"></p>
+      </section>
+
+      <section class="person-layout">
+        <div class="person-work-preview" aria-label="Related works placeholder">
+          <span id="personSlug">selected-name</span>
+        </div>
+        <article class="project-copy">
+          <h2>Related Works</h2>
+          <p id="personNote"></p>
+          <dl class="project-meta">
+            <div>
+              <dt>Page Type</dt>
+              <dd>Person / Works</dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd>Placeholder</dd>
+            </div>
+          </dl>
+        </article>
+      </section>
+    </main>
+
+    <script src="js/person.20260608-v1.js"></script>
+  </body>
+</html>
