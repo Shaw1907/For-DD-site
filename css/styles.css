@@ -275,11 +275,13 @@ a {
 
 .profile-sheet {
   position: absolute;
-  inset: clamp(16px, 3vw, 38px);
+  inset: clamp(10px, 1.4vw, 18px);
   overflow: auto;
+  --profile-sidebar-width: clamp(240px, 18vw, 330px);
   background:
-    linear-gradient(135deg, rgba(168, 38, 255, 0.24), transparent 36%),
-    rgba(5, 5, 9, 0.9);
+    radial-gradient(circle at 8% 10%, rgba(97, 21, 139, 0.46), transparent 34%),
+    linear-gradient(90deg, rgba(42, 14, 62, 0.58), transparent 23%),
+    rgba(5, 5, 9, 0.94);
   border: 1px solid rgba(246, 244, 237, 0.18);
   box-shadow: 0 28px 90px rgba(0, 0, 0, 0.48);
   transform: translateY(28px) scale(0.985);
@@ -299,9 +301,9 @@ a {
 .profile-close {
   position: sticky;
   z-index: 2;
-  top: 18px;
+  top: 16px;
   float: right;
-  margin: 18px 18px 0 0;
+  margin: 16px 16px 0 0;
   border: 1px solid rgba(246, 244, 237, 0.24);
   background: rgba(0, 0, 0, 0.42);
   color: var(--ink);
@@ -320,8 +322,8 @@ a {
 }
 
 .profile-hero {
-  min-height: 44vh;
-  padding: clamp(54px, 8vw, 112px) clamp(22px, 5vw, 74px) 42px;
+  min-height: auto;
+  padding: clamp(72px, 7vw, 104px) calc(var(--profile-sidebar-width) + clamp(36px, 5vw, 86px)) 44px clamp(40px, 4.8vw, 92px);
 }
 
 .profile-kicker {
@@ -334,31 +336,35 @@ a {
 }
 
 .profile-hero h2 {
-  max-width: 900px;
+  max-width: 1220px;
   margin: 0;
-  font-size: clamp(48px, 8vw, 118px);
-  line-height: 0.9;
+  font-size: clamp(72px, 9vw, 156px);
+  line-height: 0.82;
   letter-spacing: 0;
 }
 
 .profile-hero p:not(.profile-kicker) {
-  max-width: 620px;
-  margin: 24px 0 0;
-  color: rgba(246, 244, 237, 0.72);
-  font-size: clamp(17px, 2vw, 22px);
-  line-height: 1.5;
+  max-width: 1320px;
+  margin: 34px 0 0;
+  color: rgba(246, 244, 237, 0.9);
+  font-size: clamp(18px, 1.1vw, 22px);
+  line-height: 1.18;
+}
+
+.profile-hero strong {
+  color: var(--ink);
 }
 
 .profile-content {
   display: grid;
-  grid-template-columns: minmax(0, 1.12fr) minmax(280px, 0.68fr) auto;
-  gap: clamp(20px, 4vw, 48px);
-  padding: 0 clamp(22px, 5vw, 74px) clamp(30px, 5vw, 74px);
+  grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.52fr);
+  gap: clamp(26px, 3vw, 56px);
+  padding: 28px calc(var(--profile-sidebar-width) + clamp(36px, 5vw, 86px)) 46px clamp(40px, 4.8vw, 92px);
 }
 
 .profile-media-wall {
   display: grid;
-  min-height: 420px;
+  min-height: clamp(420px, 28vw, 560px);
   place-items: center;
   background:
     linear-gradient(135deg, rgba(168, 38, 255, 0.78), transparent 58%),
@@ -371,51 +377,59 @@ a {
 
 .profile-copy {
   align-self: start;
-  padding-top: 4px;
+  padding-top: 6px;
 }
 
 .profile-copy h3 {
   margin: 0;
-  font-size: clamp(28px, 4vw, 54px);
-  line-height: 0.98;
+  font-size: clamp(42px, 4vw, 76px);
+  line-height: 0.92;
   letter-spacing: 0;
 }
 
 .profile-copy p:not(.profile-kicker) {
-  color: rgba(246, 244, 237, 0.72);
-  font-size: 17px;
-  line-height: 1.62;
+  color: rgba(246, 244, 237, 0.9);
+  font-size: clamp(18px, 1.05vw, 22px);
+  line-height: 1.14;
+  text-align: justify;
+}
+
+.profile-copy strong {
+  color: var(--ink);
 }
 
 .profile-socials {
+  position: absolute;
+  top: clamp(92px, 7.4vw, 142px);
+  right: clamp(42px, 4.2vw, 92px);
   display: grid;
   align-content: start;
-  gap: 10px;
-  min-width: 70px;
+  gap: 18px;
+  width: var(--profile-sidebar-width);
+  z-index: 1;
 }
 
 .profile-socials a {
-  display: grid;
-  width: 58px;
-  height: 58px;
-  place-items: center;
-  border: 1px solid rgba(246, 244, 237, 0.24);
-  background: rgba(0, 0, 0, 0.34);
-  color: rgba(246, 244, 237, 0.84);
-  font-size: 12px;
-  font-weight: 800;
-  text-transform: uppercase;
-  transition: border-color 180ms ease, color 180ms ease, transform 180ms ease;
+  display: block;
+  width: auto;
+  height: auto;
+  border: 0;
+  background: transparent;
+  color: rgba(246, 244, 237, 0.9);
+  font-size: clamp(17px, 1.05vw, 21px);
+  font-weight: 500;
+  line-height: 1.25;
+  text-transform: none;
+  transition: color 180ms ease, transform 180ms ease;
 }
 
 .profile-socials a:hover {
-  border-color: rgba(221, 190, 255, 0.86);
   color: #ddbeff;
   transform: translateX(3px);
 }
 
 .profile-process {
-  padding: 20px clamp(22px, 5vw, 74px) clamp(54px, 7vw, 96px);
+  padding: 28px calc(var(--profile-sidebar-width) + clamp(36px, 5vw, 86px)) clamp(54px, 7vw, 96px) clamp(40px, 4.8vw, 92px);
 }
 
 .profile-process h3 {
@@ -943,11 +957,20 @@ a {
 
   .profile-content {
     grid-template-columns: 1fr;
+    padding-right: clamp(22px, 5vw, 74px);
   }
 
   .profile-socials {
+    position: static;
     display: flex;
     flex-wrap: wrap;
+    width: auto;
+    padding: 0 clamp(22px, 5vw, 74px) 30px;
+  }
+
+  .profile-hero,
+  .profile-process {
+    padding-right: clamp(22px, 5vw, 74px);
   }
 
   .profile-process-grid {
@@ -1051,20 +1074,33 @@ a {
   }
 
   .profile-hero {
-    padding-top: 72px;
+    padding: 72px 22px 32px;
+  }
+
+  .profile-hero h2 {
+    font-size: clamp(52px, 17vw, 82px);
+  }
+
+  .profile-content {
+    padding: 0 22px 34px;
   }
 
   .profile-media-wall {
     min-height: 240px;
   }
 
+  .profile-socials {
+    padding: 0 22px 30px;
+  }
+
   .profile-socials a {
-    width: 52px;
-    height: 52px;
+    width: auto;
+    height: auto;
+    font-size: 15px;
   }
 
   .profile-process {
-    padding-top: 8px;
+    padding: 8px 22px 54px;
   }
 
   .profile-process-grid {
