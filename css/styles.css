@@ -970,11 +970,11 @@ a {
   }
 
   .social-dock {
-    left: 50%;
+    left: max(12px, env(safe-area-inset-left));
     right: auto;
     bottom: max(12px, env(safe-area-inset-bottom));
-    flex-direction: row;
-    transform: translateX(-50%);
+    flex-direction: column;
+    transform: none;
   }
 
   .social-dock a {
@@ -983,7 +983,7 @@ a {
   }
 
   .social-dock a:hover {
-    transform: translateY(-2px);
+    transform: translateX(3px);
   }
 
   .video-section {
