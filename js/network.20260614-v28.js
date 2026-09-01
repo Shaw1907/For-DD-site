@@ -72,7 +72,7 @@ if (canvas) {
     "Yongqi Ai",
     "Jiayun Long",
     "Emma Rose Harvey",
-    "Jianing Sheng",
+    "Jianing Shen",
     "Niu Yang",
     "Yingxin Liang",
     "Jiayi Yang",
@@ -297,35 +297,108 @@ if (canvas) {
     };
   }
 
+  function setSocialLink(link, { href, label, external = true }) {
+    if (!href) {
+      link.hidden = true;
+      link.removeAttribute("href");
+      return;
+    }
+
+    link.hidden = false;
+    link.href = href;
+    link.textContent = label;
+    link.setAttribute("aria-label", label.replace(/:\s*$/, "").trim());
+    if (external && !href.startsWith("mailto:")) {
+      link.target = "_blank";
+      link.rel = "noopener";
+    } else {
+      link.removeAttribute("target");
+      link.removeAttribute("rel");
+    }
+  }
+
   function openProfilePanel(node) {
     if (!profilePanel) return;
 
+    const profile = typeof getProfileByName === "function" ? getProfileByName(node.name) : null;
+    const project = profile?.project;
+
     profileTitle.textContent = node.name;
-    profileSummary.textContent = "Soft Coordinates is an interactive web installation that maps personal memories through names, gestures and shifting digital traces. Visitors are invited to move through a constellation of profiles, images and keywords, where each participant becomes both an individual node and part of a larger collective system. Rather than presenting identity as fixed information.";
-    profileMedia.textContent = node.slug;
-    if (profileProjectTitle) profileProjectTitle.textContent = "Project name";
-    if (profileProjectDescription) profileProjectDescription.textContent = "Soft Coordinates is an interactive web installation that maps personal memories through names, gestures and shifting digital traces. Visitors are invited to move through a constellation of profiles, images and keywords, where each participant becomes both an individual node and part of a larger collective system. Rather than presenting identity as fixed information, the project treats it as something relational, fluid and continuously reconfigured through connection.";
+    profileSummary.textContent = profile?.bio
+      || "Profile details for this person will appear here once their biography, project notes, and contact links are added.";
+    if (profileMedia) {
+      profileMedia.textContent = project?.title || node.name;
+    }
+    if (profileProjectTitle) {
+      profileProjectTitle.textContent = project?.title || "Project coming soon";
+    }
+    if (profileProjectDescription) {
+      profileProjectDescription.textContent = project?.description
+        || "Selected works, process notes, and media for this person will be published here.";
+    }
+
+    const processTitle = document.querySelector("#profileProcessTitle");
+    const processGrid = document.querySelector(".profile-process-grid");
+    if (processTitle && processGrid) {
+      const driveUrl = project?.imagesDrive || "";
+      if (driveUrl) {
+        processTitle.innerHTML = `Process images — <a href="${driveUrl}" target="_blank" rel="noopener">Open Google Drive folder</a>`;
+      } else if (project?.imagesNote) {
+        processTitle.textContent = `Process images — ${project.imagesNote}`;
+      } else {
+        processTitle.textContent = "Process images";
+      }
+    }
+
     profileSocialLinks.forEach((link) => {
       const channel = link.dataset.profileSocial;
+      if (!profile) {
+        if (channel === "email") {
+          setSocialLink(link, { href: `mailto:${node.slug}@example.com`, label: `Email: ${node.slug}@example.com`, external: false });
+        } else if (channel === "instagram") {
+          setSocialLink(link, { href: profileUrl(node, "instagram"), label: `Instagram: @${node.slug}`, external: false });
+        } else if (channel === "youtube") {
+          setSocialLink(link, { href: "", label: "YouTube:" });
+        } else if (channel === "website") {
+          setSocialLink(link, { href: profileUrl(node), label: "Website: personal page", external: false });
+        } else if (channel === "linkedin") {
+          setSocialLink(link, { href: "", label: "LinkedIn:" });
+        }
+        return;
+      }
+
       if (channel === "email") {
-        link.href = `mailto:${node.slug}@example.com`;
-        link.textContent = `Email: ${node.slug}@example.com`;
+        setSocialLink(link, {
+          href: profile.email ? `mailto:${profile.email}` : "",
+          label: profile.email ? `Email: ${profile.email}` : "Email:",
+          external: false
+        });
       } else if (channel === "instagram") {
-        link.href = profileUrl(node, "instagram");
-        link.textContent = `Instagram: @${node.slug}`;
+        setSocialLink(link, {
+          href: profile.instagram ? instagramUrl(profile.instagram) : "",
+          label: profile.instagram ? `Instagram: @${profile.instagram.replace(/^@/, "")}` : "Instagram:"
+        });
       } else if (channel === "youtube") {
-        link.href = profileUrl(node, "youtube");
-        link.textContent = "YouTube: channel";
+        const youtube = profile.youtube || project?.youtube || "";
+        setSocialLink(link, {
+          href: youtube,
+          label: youtube ? "YouTube: watch project" : "YouTube:"
+        });
       } else if (channel === "website") {
-        link.href = profileUrl(node, "website");
-        link.textContent = "Website: personal page";
+        setSocialLink(link, {
+          href: profile.website || "",
+          label: profile.website ? "Website: personal page" : "Website:"
+        });
       } else if (channel === "linkedin") {
-        link.href = profileUrl(node, "linkedin");
-        link.textContent = "LinkedIn:";
-      } else {
-        link.href = profileUrl(node);
+        const rednoteHref = profile.rednoteUrl
+          || (profile.rednote ? `https://www.xiaohongshu.com/search_result?keyword=${encodeURIComponent(profile.rednote)}` : "");
+        setSocialLink(link, {
+          href: rednoteHref,
+          label: profile.rednote ? `REDnote: ${profile.rednote}` : "REDnote:"
+        });
       }
     });
+
     profilePanel.hidden = false;
     requestAnimationFrame(() => {
       profilePanel.classList.add("is-open");

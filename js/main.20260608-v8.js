@@ -5,45 +5,6 @@ const PAGE_SIZE = 6;
 let visibleProjectCount = 0;
 let scrollCardObserver = null;
 
-const eventBanners = [
-  {
-    id: "yellow",
-    label: "Fromless",
-    venue: "Venue 01",
-    title: "Fromless Yellow",
-    description: "A hero banner slot for the first venue, poster, programme, or activity announcement.",
-    date: "2026",
-    location: "Main Hall",
-    color: "#ffc400",
-    bg: "#686866",
-    accent: "rgba(255, 196, 0, 0.42)"
-  },
-  {
-    id: "blue",
-    label: "Fromless",
-    venue: "Venue 02",
-    title: "Fromless Blue",
-    description: "Click each colour strip to expand its corresponding banner without leaving the homepage.",
-    date: "2026",
-    location: "Screening Room",
-    color: "#0d55ff",
-    bg: "#626463",
-    accent: "rgba(13, 85, 255, 0.46)"
-  },
-  {
-    id: "pink",
-    label: "Fromless",
-    venue: "Venue 03",
-    title: "Fromless Pink",
-    description: "Use this area for each venue's hero image, poster, timetable, or featured event.",
-    date: "2026",
-    location: "Studio Space",
-    color: "#f600ad",
-    bg: "#676665",
-    accent: "rgba(246, 0, 173, 0.44)"
-  }
-];
-
 const projects = [
   {
     id: "signal-room",
@@ -131,87 +92,6 @@ const archiveFeed = Array.from({ length: 60 }, (_, index) => {
   };
 });
 
-function eventPanelMarkup(event) {
-  return `
-    <div class="event-display-inner">
-      <p class="event-venue">${event.venue}</p>
-      <h3>${event.title}</h3>
-      <p>${event.description}</p>
-      <div class="event-meta">
-        <span>${event.date}</span>
-        <span>${event.location}</span>
-        <span>Hero Image / Poster</span>
-      </div>
-    </div>
-  `;
-}
-
-function setEventBannerActive(activeIndex = 0, animate = true) {
-  const banner = document.querySelector("#eventBanner");
-  const panel = banner?.querySelector("#eventAccordionPanel");
-  if (!banner) return;
-
-  const active = eventBanners[activeIndex];
-  banner.querySelectorAll("[data-event-index]").forEach((button) => {
-    const isActive = Number(button.dataset.eventIndex) === activeIndex;
-    button.classList.toggle("is-active", isActive);
-    button.setAttribute("aria-pressed", String(isActive));
-  });
-
-  if (!panel) return;
-
-  panel.style.setProperty("--event-a", active.accent);
-  panel.setAttribute("aria-label", active.title);
-
-  if (!animate) {
-    panel.innerHTML = eventPanelMarkup(active);
-    return;
-  }
-
-  const inner = panel.querySelector(".event-display-inner");
-  if (inner) inner.classList.add("is-switching");
-
-  window.setTimeout(() => {
-    panel.innerHTML = eventPanelMarkup(active);
-    requestAnimationFrame(() => {
-      panel.querySelector(".event-display-inner")?.classList.remove("is-switching");
-    });
-  }, 120);
-}
-
-function renderEventBanner(activeIndex = 0) {
-  const banner = document.querySelector("#eventBanner");
-  if (!banner) return;
-
-  const tabs = eventBanners.map((event, index) => {
-    const isActive = index === activeIndex;
-    return `
-      <button
-        class="event-accordion-tab${isActive ? " is-active" : ""}"
-        type="button"
-        style="background: ${event.color}"
-        aria-pressed="${isActive}"
-        data-event-index="${index}"
-      >
-        <span class="event-tab-label">${event.label}</span>
-      </button>
-    `;
-  }).join("");
-
-  banner.innerHTML = `
-    <div class="event-tabs-rail">${tabs}</div>
-    <article class="event-accordion-panel" id="eventAccordionPanel" aria-label=""></article>
-  `;
-
-  banner.querySelectorAll("[data-event-index]").forEach((button) => {
-    button.addEventListener("click", () => {
-      setEventBannerActive(Number(button.dataset.eventIndex));
-    });
-  });
-
-  setEventBannerActive(activeIndex, false);
-}
-
 function createVideoCard(project) {
   const [a, b] = project.colors;
   return `
@@ -297,7 +177,6 @@ function updateScrollCards() {
   });
 }
 
-renderEventBanner(2);
 renderVideoGrid();
 
 window.addEventListener("scroll", updateScrollCards, { passive: true });
