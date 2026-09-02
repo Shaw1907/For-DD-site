@@ -19,10 +19,20 @@ const PROFILE_DATA = {
     bio: "Ana is a visual information designer and artist from Mexico whose practice translates the imperceptible into something felt. She is drawn to what escapes attention: inaudible sounds, histories systems choose to erase, emotions with no body, data no one has learned to read. Working across installation, spatial sound, and immersive narrative, she starts from the core of an idea rather than its form. For Ana, immersion is not a format but a state — any space that makes the unperceived perceptible.",
     project: {
       title: "Silent Melody",
+      year: "2026",
       description: "Silent Melody is an immersive experience about a coral reef silenced by political corruption. Coral reefs sing, and that voice is usually reduced to environmental data, buried in charts no one reads. Ana translated the reef's data into music, and built a visual narrative around it: a dance between the coral, the moon, and the political conflict that silenced it. Presented as an immersive installation at Frameless London, the work moves through sound, image, and space rather than explaining itself in words. It asks what is lost when power decides that something does not deserve to be heard, and gives that loss a body: a coral that can, briefly, be listened to again. Silent Melody sits at the centre of Ana's practice, turning an invisible system into something an audience can feel.",
       youtube: "",
       imagesDrive: "",
-      imagesNote: "Fotos website"
+      images: {
+        portrait: "media/people/ana-vigil-escalera-carriles/gallery-04.jpg",
+        featured: "media/people/ana-vigil-escalera-carriles/hero.jpg",
+        gallery: [
+          "media/people/ana-vigil-escalera-carriles/gallery-03.jpg",
+          "media/people/ana-vigil-escalera-carriles/portrait.jpg",
+          "media/people/ana-vigil-escalera-carriles/gallery-01.jpg",
+          "media/people/ana-vigil-escalera-carriles/gallery-02.jpg"
+        ]
+      }
     }
   },
   "Fangdi (Andy) Liu": {

@@ -6,27 +6,29 @@
     <meta name="description" content="Company website framework with an interactive network hero and a waterfall video archive.">
     <title>Company Studio</title>
     <script src="js/responsive-controller.20260614-v1.js"></script>
-    <link rel="stylesheet" href="css/styles.css?v=20260901-v33">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css?v=20260903-memory">
   </head>
-  <body>
+  <body class="home-page">
     <header class="site-header" aria-label="Primary navigation">
-      <a class="brand" href="index.html" aria-label="Company Studio home">
+      <a class="brand" href="index.html" aria-label="Home">
         <span class="brand-mark home-mark" aria-hidden="true">
           <svg viewBox="0 0 24 24" focusable="false">
             <path d="M3 10.8 12 3l9 7.8V21a1 1 0 0 1-1 1h-5.5v-6.8h-5V22H4a1 1 0 0 1-1-1V10.8Z"></path>
           </svg>
         </span>
-        <span class="brand-name">Company Studio</span>
       </a>
       <nav class="nav-links" aria-label="Main menu">
         <a href="#work">Work</a>
         <a href="#network">Network</a>
-        <a href="#contact">Contact</a>
+        <a href="memory.html">Memory</a>
       </nav>
     </header>
 
     <aside class="social-dock" aria-label="Social links">
-      <a href="https://www.instagram.com/" aria-label="Instagram">
+      <a href="https://www.instagram.com/rca_digitaldirection/" aria-label="Instagram" target="_blank" rel="noopener">
         <span aria-hidden="true">IG</span>
       </a>
       <a href="https://www.youtube.com/" aria-label="YouTube">
@@ -47,74 +49,72 @@
             A living homepage frame for films, collaborations, research, and visual stories.
           </p>
         </div>
-        <div class="hero-status" id="networkStatus" aria-live="polite">
-          Hover the field
-        </div>
       </section>
 
       <section class="video-section" id="work" aria-labelledby="work-title">
-        <div class="section-heading">
-          <p class="eyebrow">Archive</p>
-          <h2 id="work-title">Waterfall Video Wall</h2>
+        <div class="video-section-intro">
+          <p class="eyebrow video-section-eyebrow">Archive</p>
+          <h2 class="video-section-title" id="work-title">Waterfall Video Wall</h2>
+          <div class="wall-tags" id="wallTags" role="tablist" aria-label="Filter work by tag"></div>
         </div>
         <div class="video-grid" id="videoGrid" aria-label="Video project gallery"></div>
         <div class="load-more-wrap">
           <button class="load-more-button" id="loadMoreButton" type="button">Load more</button>
         </div>
       </section>
-
-      <section class="contact-band" id="contact" aria-labelledby="contact-title">
-        <div>
-          <p class="eyebrow">Contact</p>
-          <h2 id="contact-title">Hey! We're DD.</h2>
-        </div>
-        <a class="text-link" href="mailto:hello@example.com">hello@example.com</a>
-      </section>
     </main>
 
     <section class="profile-panel" id="profilePanel" aria-labelledby="profilePanelTitle" aria-modal="true" role="dialog" hidden>
       <button class="profile-scrim" type="button" data-profile-close aria-label="Close profile"></button>
+      <header class="site-header profile-panel-header" aria-label="Primary navigation">
+        <a class="brand" href="index.html" aria-label="Home">
+          <span class="brand-mark home-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M3 10.8 12 3l9 7.8V21a1 1 0 0 1-1 1h-5.5v-6.8h-5V22H4a1 1 0 0 1-1-1V10.8Z"></path>
+            </svg>
+          </span>
+        </a>
+        <nav class="nav-links" aria-label="Main menu">
+          <a href="#work" data-profile-close>Work</a>
+          <a href="#network" data-profile-close>Network</a>
+          <a href="memory.html" data-profile-close>Memory</a>
+        </nav>
+        <button class="profile-close" type="button" data-profile-close aria-label="Close profile">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </header>
       <div class="profile-sheet">
-        <button class="profile-close" type="button" data-profile-close aria-label="Close profile">Close</button>
-        <div class="profile-socials" aria-label="Profile social links">
-          <a href="mailto:hello@example.com" aria-label="Email" data-profile-social="email">Email:</a>
-          <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram" data-profile-social="instagram">Instagram:</a>
-          <a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube" data-profile-social="youtube">YouTube:</a>
-          <a href="person.html" aria-label="Website" data-profile-social="website">Website:</a>
-          <a href="person.html" aria-label="LinkedIn" data-profile-social="linkedin">LinkedIn:</a>
-        </div>
-        <div class="profile-hero">
-          <p class="profile-kicker">Network Profile</p>
-          <h2 id="profilePanelTitle">Selected Name</h2>
-          <p><strong>Bio:</strong> <span id="profilePanelSummary">Soft Coordinates is an interactive web installation that maps personal memories through names, gestures and shifting digital traces.</span></p>
-        </div>
-        <div class="profile-content">
-          <div class="profile-media-wall" aria-label="Related works preview">
-            <span>Works Preview</span>
+        <div class="profile-layout">
+          <aside class="profile-aside">
+            <p class="profile-section-kicker">NETWORK PROFILE</p>
+            <h2 id="profilePanelTitle">Selected Name</h2>
+            <div id="profilePanelSummary" class="profile-bio"></div>
+            <dl class="profile-contact" id="profileContact"></dl>
+            <figure class="profile-figure profile-figure-portrait profile-figure-placeholder" id="profilePortraitWrap">
+              <img id="profilePortrait" class="profile-media" alt="" loading="lazy">
+            </figure>
+          </aside>
+            <div class="profile-work">
+            <div class="profile-work-offset" id="profileWorkOffset" aria-hidden="true"></div>
+            <div class="profile-work-intro">
+              <p class="profile-section-kicker" id="profileWorkKicker">CREATIVE WORK</p>
+              <h3 id="profileProjectTitle">Project name</h3>
+            </div>
+            <div class="profile-project-video" id="profileProjectVideoWrap" hidden></div>
+            <div id="profileProjectDescription" class="profile-project-description"></div>
+            <figure class="profile-figure profile-figure-featured" id="profileFeaturedWrap" hidden>
+              <img id="profileFeatured" class="profile-media" alt="" loading="lazy">
+            </figure>
+            <div class="profile-work-gallery" id="profileWorkGallery" aria-label="Project images"></div>
           </div>
-          <div class="profile-copy">
-            <p class="profile-kicker">Selected Works</p>
-            <h3 id="profileProjectTitle">Project name</h3>
-            <p><strong>Project description:</strong> <span id="profileProjectDescription">Soft Coordinates is an interactive web installation that maps personal memories through names, gestures and shifting digital traces.</span></p>
-          </div>
         </div>
-        <section class="profile-process" aria-labelledby="profileProcessTitle">
-          <p class="profile-kicker">Process</p>
-          <h3 id="profileProcessTitle">Process images</h3>
-          <div class="profile-process-grid" aria-label="Process image placeholders">
-            <div class="process-tile process-tile-large"><span>01</span></div>
-            <div class="process-tile"><span>02</span></div>
-            <div class="process-tile"><span>03</span></div>
-            <div class="process-tile process-tile-wide"><span>04</span></div>
-            <div class="process-tile"><span>05</span></div>
-            <div class="process-tile"><span>06</span></div>
-          </div>
-        </section>
       </div>
     </section>
 
-    <script src="js/profiles.20260831-v2.js?v=20260831-shen"></script>
-    <script src="js/network.20260614-v28.js?v=20260831-shen"></script>
-    <script src="js/main.20260608-v8.js?v=20260831-shen"></script>
+    <script src="js/site-footer.20260903-v1.js?v=20260903-footer4"></script>
+    <script src="js/profiles.20260902-v1.js?v=20260903-akwetey"></script>
+    <script src="js/network.20260614-v30.js?v=20260903-morph"></script>
+    <script src="js/header-search.20260902-v1.js?v=20260902-search-enter"></script>
+    <script src="js/waterfall-wall.20260903-v1.js?v=20260903-memory"></script>
   </body>
 </html>
