@@ -482,11 +482,7 @@ const PROFILE_DATA = {
       title: "Window Tripper",
       year: "2026",
       description: "With an emphasis on techniques that alter and adapt reflections of real time conditions, thought processes and emotional states, John Akwetey Orraca-Tetteh (b.1980, United States) is a Ghanaian American artist based in London, Mexico City and New York working across emerging technology, physical computing, sensory applications images, and audio-visual performance.\n\nInside an immersive practice encompassing 3D engineering, painting, and experience design, the artist also intimates the contexts and complexities of virtual vs. IRL life through image and sound works. Driven by ideas of post-ancestral authorization, Akwetey often employs computer applications, animation, and the Internet-as-medium, reimagining cultural and personal mythologies through the reach of digital consciousness.",
-      youtube: "",
-      videos: [
-        { title: "Vimeo", url: "https://vimeo.com/1221718580" },
-        { title: "Drive video", url: "https://drive.google.com/file/d/1V2xVLPBa5ohhD_dbAtuf0oISMspNv1IV/view?usp=drivesdk" },
-      ],
+      youtube: "https://vimeo.com/1223628166",
       imagesDrive: "",
     }
   },

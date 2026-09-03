@@ -1283,6 +1283,16 @@ if (canvas) {
     window.openNetworkProfileByName(pendingProfile);
   }
 
+  // On mobile the canvas is sticky; scroll events don't trigger rAF naturally,
+  // so we ensure a redraw whenever the page scrolls (throttled to one frame).
+  let scrollRafPending = false;
+  window.addEventListener("scroll", () => {
+    if (isPhoneLayout() && !scrollRafPending) {
+      scrollRafPending = true;
+      requestAnimationFrame(() => { scrollRafPending = false; });
+    }
+  }, { passive: true });
+
   window.addEventListener("resize", resize);
   resize();
   requestAnimationFrame(draw);

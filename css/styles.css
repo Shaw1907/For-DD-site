@@ -1398,8 +1398,10 @@ html:has(.memory-body) {
   }
 
   body.home-page {
-    --page-gutter: calc(16px + var(--home-gutter-extra));
-    --section-gutter: calc(16px + var(--home-gutter-extra));
+    /* Remove the desktop social-dock offset; dock moves to top-right on mobile */
+    --home-gutter-extra: 0px;
+    --page-gutter: 16px;
+    --section-gutter: 16px;
   }
 
   .site-header {
@@ -1629,21 +1631,25 @@ html:has(.memory-body) {
     min-height: 42vh;
   }
 
+  /* Social dock: move to top-right corner on mobile so it doesn't add
+     left gutter and doesn't overlap content at the bottom. */
   .social-dock {
-    left: max(12px, env(safe-area-inset-left));
-    right: auto;
-    bottom: max(12px, env(safe-area-inset-bottom));
-    flex-direction: column;
+    top: max(calc(var(--header-height) + 8px), env(safe-area-inset-top));
+    right: max(10px, env(safe-area-inset-right));
+    bottom: auto;
+    left: auto;
+    flex-direction: row;
+    gap: 8px;
     transform: none;
   }
 
   .social-dock a {
-    width: 44px;
-    height: 44px;
+    width: 38px;
+    height: 38px;
   }
 
   .social-dock a:hover {
-    transform: translateX(3px);
+    transform: translateY(-2px);
   }
 
   .video-section {
@@ -1697,17 +1703,21 @@ html:has(.memory-body) {
     gap: 12px;
   }
 
+  /* Two-screen hero: first D visible immediately, second D revealed on scroll */
   .hero {
     min-height: 200svh;
     height: 200svh;
     overflow: visible;
+    background:
+      radial-gradient(circle at 50% 25%, rgba(231, 240, 255, 0.05), transparent 46%),
+      #000;
   }
 
   .network-canvas {
     position: sticky;
     top: 0;
     left: 0;
-    inset: auto;
+    inset: unset;
     width: 100%;
     height: 100svh;
     max-height: 100dvh;
