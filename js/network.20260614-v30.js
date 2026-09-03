@@ -16,6 +16,7 @@ const profileProjectTitle = document.querySelector("#profileProjectTitle");
 const profileProjectVideoWrap = document.querySelector("#profileProjectVideoWrap");
 const profileProjectDescription = document.querySelector("#profileProjectDescription");
 const profileWorkGallery = document.querySelector("#profileWorkGallery");
+const profileMobileName = document.querySelector("#profileMobileName");
 const profileCloseButtons = document.querySelectorAll("[data-profile-close]");
 
 if (canvas) {
@@ -456,7 +457,10 @@ if (canvas) {
   }
 
   function splitIntoSentences(text) {
-    return text.match(/[^.!?]+[.!?]+(?:\s+|$)|[^.!?]+$/g) || [text];
+    // Protect single-letter abbreviations like "b.1980" so they are not treated as sentence ends.
+    const protectedText = String(text || "").replace(/\b([A-Za-z])\.(?=\d)/g, "$1\u0000.");
+    return (protectedText.match(/[^.!?]+[.!?]+(?:\s+|$)|[^.!?]+$/g) || [protectedText])
+      .map((part) => part.replace(/\u0000/g, ""));
   }
 
   function chunkParagraph(text, maxChars = 320) {
@@ -487,15 +491,11 @@ if (canvas) {
     const text = (bio || "").trim();
     if (!text) return "";
 
+    // Prefer author-defined paragraph breaks. Only chunk a single long block.
     const rawParagraphs = text.split(/\n\s*\n+/).map((part) => part.trim()).filter(Boolean);
-    let paragraphs = rawParagraphs.flatMap((part) => chunkParagraph(part, 320));
-
-    if (paragraphs.length > 3) {
-      const first = paragraphs[0];
-      const last = paragraphs[paragraphs.length - 1];
-      const middle = paragraphs.slice(1, -1).join(" ");
-      paragraphs = [first, middle, last].filter(Boolean);
-    }
+    const paragraphs = rawParagraphs.length >= 2
+      ? rawParagraphs
+      : rawParagraphs.flatMap((part) => chunkParagraph(part, 420));
 
     return paragraphs.map((part) => `<p>${escapeHtml(part)}</p>`).join("");
   }
@@ -547,6 +547,7 @@ if (canvas) {
     const images = project?.images || {};
 
     profileTitle.textContent = node.name;
+    if (profileMobileName) profileMobileName.textContent = node.name;
     const defaultBio = "Profile details for this person will appear here once their biography, project notes, and contact links are added.";
     profileSummary.innerHTML = formatBioHtml(profile?.bio) || `<p>${escapeHtml(defaultBio)}</p>`;
 
@@ -589,7 +590,10 @@ if (canvas) {
 
     if (profileWorkKicker) {
       const year = project?.year || "";
-      profileWorkKicker.textContent = year ? `CREATIVE WORK: ${year}` : "CREATIVE WORK";
+      const yearMarkup = year ? escapeHtml(year) : "";
+      profileWorkKicker.innerHTML = year
+        ? `<span class="profile-kicker-label-desktop">CREATIVE WORK: ${yearMarkup}</span><span class="profile-kicker-label-mobile">SELECTED WORK | ${yearMarkup}</span>`
+        : `<span class="profile-kicker-label-desktop">CREATIVE WORK</span><span class="profile-kicker-label-mobile">SELECTED WORK</span>`;
     }
     if (profileProjectTitle) {
       profileProjectTitle.textContent = project?.title || "Project coming soon";

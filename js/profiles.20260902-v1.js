@@ -93,18 +93,18 @@ const PROFILE_DATA = {
     }
   },
   "Yunhao Lei": {
-    email: "",
-    instagram: "",
+    email: "10060086@network.rca.ac.uk",
+    instagram: "rick44506",
     website: "",
     youtube: "",
     rednote: "",
     rednoteUrl: "",
-    bio: "",
+    bio: "Yunhao Lei is a narrative-driven digital media creator, graduate of Digital Direction at the Royal College of Art. His practice focuses on game narrative design, virtual world-building, and immersive experiences — exploring how story can be not just told, but experienced.\nHis graduation project After End is a first-person exploration game examining how war memory transforms from individual experience into collective narrative. Through a \"pre-war/post-war\" dual-timeline switching mechanic, the work invites players to perceive the tension between official memory and personal experience via spatial exploration. He believes games are a narrative medium capable of addressing complex subjects, and seeks to create experiences that invite active reflection and response.",
     project: {
-      title: "Project coming soon",
+      title: "After End",
       year: "2026",
-      description: "Selected works, process notes, and media for this person will be published here.",
-      youtube: "",
+      description: "After End: Exploring how war memory transforms from individual experience into collectivememory through a first-person exploration game and digital memorial environment. Theproject examines how memories of war are reconstructed through social, historical, andtechnological systems, using the transformation of pre-war spaces into post-war ruins toreflect on remembrance, loss, and historical perception.",
+      youtube: "https://www.youtube.com/watch?v=LQ_lXnEkDNI",
       imagesDrive: "",
     }
   },
@@ -435,12 +435,22 @@ const PROFILE_DATA = {
     youtube: "",
     rednote: "",
     rednoteUrl: "",
-    bio: "",
+    bio: "Xinyang Pan is a digital director and interdisciplinary artist who is dedicated to researching the combination of different media forms and narratives, as well as the application of immersive artworks in different contexts, with his works focusing on interactive installations, digital images, and immersive experiences. His works are mainly in the form of interactive installations, digital images, and immersive experiences. Most of his outputs are inspired by his personal experiences and visualised through new narratives. He is good at exploring social issues from different perspectives. He captures the impact of different social conditions on the construction of oneself and the public. He focuses on exploring the relationship between different media and narratives, and how diverse narrative forms can resonate with the public psyche.",
     project: {
-      title: "Project coming soon",
+      title: "After the Molt",
       year: "2026",
-      description: "Selected works, process notes, and media for this person will be published here.",
-      youtube: "",
+      description: "After the Molt is a moving-image installation that uses the life cycle of a cicada as its narrative structure to explore repetitive labour and alienation in contemporary cities.\n\nThe work combines the habitat and life cycle of cicadas with the oppressive atmosphere of rapidly developing cities to create a fictional world between natural ecology and urban space. Through this juxtaposition, it reflects on cycles of labour, transformation, and the relationship between human life and the environments we construct.",
+      youtube: "https://www.youtube.com/watch?v=58dGI69L8xc",
+      images: {
+        portrait: "media/people/xinyang-pan/image-06.jpg",
+        featured: "media/people/xinyang-pan/image-01.jpg",
+        gallery: [
+          "media/people/xinyang-pan/image-02.jpg",
+          "media/people/xinyang-pan/image-03.jpg",
+          "media/people/xinyang-pan/image-04.jpg",
+          "media/people/xinyang-pan/image-05.jpg"
+        ]
+      },
       imagesDrive: "",
     }
   },
@@ -473,6 +483,10 @@ const PROFILE_DATA = {
       year: "2026",
       description: "With an emphasis on techniques that alter and adapt reflections of real time conditions, thought processes and emotional states, John Akwetey Orraca-Tetteh (b.1980, United States) is a Ghanaian American artist based in London, Mexico City and New York working across emerging technology, physical computing, sensory applications images, and audio-visual performance.\n\nInside an immersive practice encompassing 3D engineering, painting, and experience design, the artist also intimates the contexts and complexities of virtual vs. IRL life through image and sound works. Driven by ideas of post-ancestral authorization, Akwetey often employs computer applications, animation, and the Internet-as-medium, reimagining cultural and personal mythologies through the reach of digital consciousness.",
       youtube: "",
+      videos: [
+        { title: "Vimeo", url: "https://vimeo.com/1221718580" },
+        { title: "Drive video", url: "https://drive.google.com/file/d/1V2xVLPBa5ohhD_dbAtuf0oISMspNv1IV/view?usp=drivesdk" },
+      ],
       imagesDrive: "",
     }
   },
@@ -509,18 +523,22 @@ const PROFILE_DATA = {
     }
   },
   "Yixuan Sun": {
-    email: "",
-    instagram: "",
+    email: "yixuansun6868@gmail.com",
+    instagram: "aaxx.xx.xxaa",
     website: "",
     youtube: "",
     rednote: "",
     rednoteUrl: "",
-    bio: "",
+    bio: "Sun Yixuan, from China, is a student of Digital Art at the Royal College of Art (RCA). She is interested in exploring narrative approaches across different media. She sees herself as a scavenger in contemporary society, collecting and retelling events that have been discarded by positivism or deliberately forgotten in the present day. These include indifference towards other species, the loss of imagination, neglected environmental pollution, and scepticism towards the irrational. Amid society’s pursuit of practicality and efficiency, these issues also conceal the ‘other’—a presence that remains inadequately articulated.",
     project: {
-      title: "Project coming soon",
+      title: "Bone Wars",
       year: "2026",
-      description: "Selected works, process notes, and media for this person will be published here.",
-      youtube: "",
+      description: "Starting from the Bone Wars, this project critically examines how “truth” is shaped by power, incomplete evidence, and anthropocentric thinking, showing how humans construct knowledge while misinterpreting and imposing meaning on other species.",
+      youtube: "https://www.youtube.com/watch?v=MP9DiHt_P6w",
+      videos: [
+        { title: "Project video", url: "https://www.youtube.com/watch?v=MP9DiHt_P6w" },
+        { title: "YouTube channel", url: "https://www.youtube.com/@RanYI-y2w" },
+      ],
       imagesDrive: "",
     }
   },
@@ -643,17 +661,17 @@ const PROFILE_DATA = {
     }
   },
   "Ran Ji": {
-    email: "",
-    instagram: "",
-    website: "",
+    email: "easter7773@gmail.com",
+    instagram: "iam_jiran",
+    website: "https://extravaganza.cargo.site/",
     youtube: "",
     rednote: "",
     rednoteUrl: "",
-    bio: "",
+    bio: "Ran Ji is a Chinese artist. A consistent thread runs through her work, each project is grounded in narrative and humanistic content, drawn from research into how people actually live and relate to one another. She works primarily across 3D animation, installation and augmented reality, moving between physical and digital form depending on what a project asks for.",
     project: {
-      title: "Project coming soon",
+      title: "Et in Arcadia Ego",
       year: "2026",
-      description: "Selected works, process notes, and media for this person will be published here.",
+      description: "Et in Arcadia Ego is a moving image work exploring the place death holds within a community, arguing that it functions more like a connection than a separation, closer to a door than a wall. Built in Blender, the work follows a flock of birds moving between several distinct environments, each rendered as part of a single continuous frame and divided across three adjoining screens, so the flock can pass from one screen to the next without a cut. Live-action footage is layered alongside the 3D animation, and the visual system carrying the birds through these environments was developed and revised across several rounds of production, refining how movement, colour and sound mark the shift between one state and another. The result is a three-screen moving image work built to hold multiple timelines in view at once.",
       youtube: "",
       imagesDrive: "",
     }
@@ -717,13 +735,13 @@ const PROFILE_DATA = {
     }
   },
   "Jacob (Deyu) Zeng": {
-    email: "",
-    instagram: "",
-    website: "",
+    email: "cengdeyu1@gmail.com",
+    instagram: "Jacob.Z.S",
+    website: "https://jacobzeng.cargo.site/",
     youtube: "",
     rednote: "",
     rednoteUrl: "",
-    bio: "",
+    bio: "Jacob (Deyu) Zeng (b. 2003, China) is a multimedia artist and practice-led researcher based between London, Shanghai, and Hangzhou. His practice spans moving image, performance, sound, and interactive environments. His work investigates how political, technological, and institutional systems shape space, and how individuals encounter power through everyday environments and infrastructures.\n\nThrough site-based methods, including walking, sensing, and interaction, he develops projects that translate research into spatial and experiential forms. His recent work examines how spoken and symbolic language, oral memory, and what he call “migrant speaking” are mediated within institutional and computational systems.",
     project: {
       title: "Project coming soon",
       year: "2026",
@@ -826,13 +844,13 @@ const PROFILE_DATA = {
     }
   },
   "Raghav Kapoor": {
-    email: "",
-    instagram: "",
-    website: "",
+    email: "raghavwork20@gmail.com",
+    instagram: "raghav20kapoor",
+    website: "https://www.raghavkapoor.net",
     youtube: "",
     rednote: "",
     rednoteUrl: "",
-    bio: "",
+    bio: "Raghav Kapoor is an Indian narrative designer and interactive storyteller based in London. Before his MA, he worked as a narrative designer on indie games, and as a visual designer at Landor and Grey.\nHis practice is rooted in narrative design, using structure, pacing, and choice to shape how a story is experienced, across games, interactive media, and beyond.\nRaghav is currently working on new narrative experiences, building out different worlds and stories across games and interactive media.",
     project: {
       title: "Project coming soon",
       year: "2026",
@@ -948,17 +966,17 @@ const PROFILE_DATA = {
     }
   },
   "Yalin Sheng": {
-    email: "",
-    instagram: "",
+    email: "doreen00ylin@gmail.com",
+    instagram: "doreen_ylin",
     website: "",
     youtube: "",
-    rednote: "",
-    rednoteUrl: "",
-    bio: "",
+    rednote: "505099074",
+    rednoteUrl: "https://www.xiaohongshu.com/search_result?keyword=505099074&type=user&source=web_explore_feed",
+    bio: "Yalin Sheng is a digital artist and experience designer whose practice explores how perception, emotion, and technology shape our understanding of reality. Working across immersive installation, moving image, 3D environments, and interactive systems, she transforms invisible bodily and environmental processes into spatial experiences. Her work often brings human and non-human perspectives into dialogue, inviting audiences to question the systems through which meaning, memory, and experience are constructed.",
     project: {
-      title: "Project coming soon",
+      title: "BARDO: Constructing Reality Through Perception",
       year: "2026",
-      description: "Selected works, process notes, and media for this person will be published here.",
+      description: "BARDO is an interactive installation exploring psychological stagnation—the feeling of being trapped in circumstances, routines, or states of mind that seem impossible to change. Drawing on the Tibetan concept of Bardo, embodied cognition, and the spatial logic of Chinese gardens, the work frames the environment as a reflection of the visitor’s inner state. A depth camera reads four intuitive hand gestures—grasp, push, rest, and point—while a classification system interprets desire, anxiety, calm, and transcendence. In response, a looping Unreal Engine environment shifts in colour, movement, light, and atmosphere. The visitor does not directly control the room; instead, the room mirrors them. Through this repeated encounter, BARDO suggests that perception is not passive: if we recognise that we are co-creating what we experience, we may also recognise that we are not entirely stuck.",
       youtube: "",
       imagesDrive: "",
     }
@@ -1012,18 +1030,23 @@ const PROFILE_DATA = {
     }
   },
   "Hang Lan": {
-    email: "",
-    instagram: "",
-    website: "",
+    email: "gnahnal@gmail.com",
+    instagram: "gnahnal",
+    website: "https://2026.rca.ac.uk/school-of-communication/digital-direction-ma/profile/hang-lan/",
     youtube: "",
     rednote: "",
     rednoteUrl: "",
-    bio: "",
+    bio: "Hang is a digital artist whose practice explores the hidden relationship between algorithms, perception, and control. For Hang, technology is not simply a tool, but an invisible structure that shapes what we see, choose, and become. Through immersive projection, moving image, and sound, Hang transforms abstract data systems into physical and emotional experiences, revealing the uneasy boundary between personal agency and algorithmic influence.",
     project: {
-      title: "Project coming soon",
+      title: "Algorithmic Echoes",
       year: "2026",
-      description: "Selected works, process notes, and media for this person will be published here.",
-      youtube: "",
+      description: "Algorithmic Echoes is an immersive audio-visual installation that explores the illusion of choice within algorithmic systems. Here, algorithms are not simply lines of code, but invisible forces that observe, predict, and gradually reshape human behaviour. Through three-wall projection, fragmented faces, a living gaze, and sound that moves from addictive rhythm to sudden silence, the work gives physical form to the hidden feedback loops of surveillance capitalism. It asks what remains of personal agency when human uncertainty is continuously translated into predictable data.",
+      youtube: "https://www.youtube.com/watch?v=XzVo2haNhDA",
+      images: {
+        portrait: "media/people/hang-lan/image-01.jpg",
+        featured: "media/people/hang-lan/image-01.jpg",
+        gallery: []
+      },
       imagesDrive: "",
     }
   },

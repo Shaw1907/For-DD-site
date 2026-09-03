@@ -131,6 +131,36 @@ console.info(`[site] ${WATERFALL_WALL_VERSION}`);
     return [...new Set(tags)];
   }
 
+  function getMaxColumns() {
+    const grid = document.querySelector("#videoGrid");
+    // Use the wall's real content width so gutters don't under-count columns.
+    const width = grid?.clientWidth || window.innerWidth;
+    if (width < 420) return 1;
+    if (width < 720) return 2;
+    if (width < 980) return 3;
+    if (width < 1180) return 4;
+    return 5;
+  }
+
+  function updateGridColumns() {
+    const grid = document.querySelector("#videoGrid");
+    if (!grid) return;
+
+    const maxColumns = getMaxColumns();
+
+    // Always use a fixed grid so filtered results keep the full column count
+    // (e.g. 5 on desktop) instead of CSS multi-column packing to the left.
+    grid.style.columnCount = "auto";
+    grid.style.display = "grid";
+    grid.style.gridTemplateColumns = `repeat(${maxColumns}, minmax(0, 1fr))`;
+    grid.style.gap = "clamp(16px, 2vw, 24px)";
+    grid.querySelectorAll(".video-card").forEach((card) => {
+      card.style.display = "block";
+      card.style.width = "auto";
+      card.style.marginBottom = "0";
+    });
+  }
+
   function getPageSize() {
     const width = window.innerWidth;
     if (width >= 1600) return 15;
@@ -138,6 +168,34 @@ console.info(`[site] ${WATERFALL_WALL_VERSION}`);
     if (width >= 900) return 9;
     if (width >= 680) return 6;
     return 4;
+  }
+
+  function collectYouTubeThumbMedia(profile) {
+    const project = profile.project || {};
+    const media = [];
+    const seen = new Set();
+
+    const sources = [
+      project.youtube,
+      profile.youtube,
+      ...((project.videos || []).map((entry) => entry?.url || "")),
+    ];
+
+    sources.forEach((source) => {
+      parseVideoUrls(source).forEach((url) => {
+        const id = extractYouTubeId(url);
+        if (!id || seen.has(id)) return;
+        seen.add(id);
+        media.push({
+          type: "image",
+          src: `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`,
+          fallbackSrc: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
+          youtubeId: id,
+        });
+      });
+    });
+
+    return media;
   }
 
   function collectProfileMedia(profile) {
@@ -148,6 +206,11 @@ console.info(`[site] ${WATERFALL_WALL_VERSION}`);
     [images.featured, images.portrait, ...(images.gallery || [])]
       .filter(Boolean)
       .forEach((src) => media.push({ type: "image", src }));
+
+    // No uploaded photos: fall back to YouTube default cover frames.
+    if (!media.length) {
+      return collectYouTubeThumbMedia(profile);
+    }
 
     return media;
   }
@@ -202,11 +265,18 @@ console.info(`[site] ${WATERFALL_WALL_VERSION}`);
 
   function createVideoCard(item) {
     const [colorA, colorB] = item.colors;
-    const hasImage = item.media?.type === "image";
+    const hasImage = item.media?.type === "image" && item.media?.src;
     const thumbClass = hasImage ? "video-thumb has-image" : "video-thumb";
-    const thumbContent = hasImage
-      ? `<img src="${escapeHtml(item.media.src)}" alt="${escapeHtml(`${item.title} — ${item.name}`)}" loading="lazy">`
-      : "";
+    let thumbContent = "";
+
+    if (hasImage) {
+      const alt = escapeHtml(`${item.title} — ${item.name}`);
+      const src = escapeHtml(item.media.src);
+      const fallback = item.media.fallbackSrc
+        ? ` onerror="this.onerror=null;this.src='${escapeHtml(item.media.fallbackSrc)}'"`
+        : "";
+      thumbContent = `<img src="${src}" alt="${alt}" loading="lazy"${fallback}>`;
+    }
 
     return `
       <article class="video-card scroll-card" data-name="${escapeHtml(item.name)}" data-tags="${escapeHtml(item.tags.join("|"))}" style="--tile-a: ${colorA}; --tile-b: ${colorB}">
@@ -289,6 +359,7 @@ console.info(`[site] ${WATERFALL_WALL_VERSION}`);
 
     visibleCount = end;
     setupScrollCards(newCards);
+    updateGridColumns();
     updateLoadMoreButton();
   }
 
@@ -302,6 +373,7 @@ console.info(`[site] ${WATERFALL_WALL_VERSION}`);
 
     grid.innerHTML = "";
     visibleCount = 0;
+    updateGridColumns();
     appendVideoCards(getPageSize());
   }
 
@@ -376,7 +448,10 @@ console.info(`[site] ${WATERFALL_WALL_VERSION}`);
   }
 
   window.addEventListener("scroll", updateScrollCards, { passive: true });
-  window.addEventListener("resize", updateScrollCards);
+  window.addEventListener("resize", () => {
+    updateGridColumns();
+    updateScrollCards();
+  });
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", mount, { once: true });
