@@ -175,7 +175,20 @@ if (canvas) {
     );
   }
 
+  function getScrollMorphAmount() {
+    const hero = canvas.closest(".hero");
+    if (!hero) return 0;
+    const scrollable = Math.max(1, hero.offsetHeight - window.innerHeight);
+    const scrolled = Math.min(scrollable, Math.max(0, -hero.getBoundingClientRect().top));
+    return easeInOut(scrolled / scrollable);
+  }
+
   function getMorphAmount(time) {
+    // Phone: morph follows a two-screen scroll so DD has room to read.
+    if (isPhoneLayout()) {
+      return getScrollMorphAmount();
+    }
+
     const HOLD_SCATTER = 4500;
     const CONVERGE = 4400;
     const HOLD_DD = 9800;

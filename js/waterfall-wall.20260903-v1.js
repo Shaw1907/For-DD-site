@@ -135,8 +135,8 @@ console.info(`[site] ${WATERFALL_WALL_VERSION}`);
     const grid = document.querySelector("#videoGrid");
     // Use the wall's real content width so gutters don't under-count columns.
     const width = grid?.clientWidth || window.innerWidth;
-    if (width < 420) return 1;
-    if (width < 720) return 2;
+    // Mobile: always two columns; desktop layout unchanged.
+    if (width < 680) return 2;
     if (width < 980) return 3;
     if (width < 1180) return 4;
     return 5;

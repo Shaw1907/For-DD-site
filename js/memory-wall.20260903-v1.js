@@ -1,4 +1,4 @@
-const MEMORY_WALL_VERSION = "memory-wall.20260903-v7";
+const MEMORY_WALL_VERSION = "memory-wall.20260903-v8";
 console.info(`[site] ${MEMORY_WALL_VERSION}`);
 
 (function initMemoryWall() {
@@ -8,6 +8,7 @@ console.info(`[site] ${MEMORY_WALL_VERSION}`);
   const REPEL_RADIUS = 360;
   const REPEL_STRENGTH = 220;
   const SELECT_SCALE = 3;
+  const SELECT_SCALE_MOBILE = 2.2;
   const LERP = 0.22;
   const GAP = 6;
 
@@ -26,6 +27,10 @@ console.info(`[site] ${MEMORY_WALL_VERSION}`);
   let rafId = 0;
   let buildToken = 0;
 
+  function isMobileWidth(width = window.innerWidth) {
+    return width < 680;
+  }
+
   function imageSrc(index) {
     return `${IMAGE_BASE}/m-${String((index % IMAGE_COUNT) + 1).padStart(3, "0")}.jpg`;
   }
@@ -41,6 +46,7 @@ console.info(`[site] ${MEMORY_WALL_VERSION}`);
   function loadAspects() {
     const jobs = Array.from({ length: IMAGE_COUNT }, (_, index) => new Promise((resolve) => {
       const img = new Image();
+      img.decoding = "async";
       img.onload = () => {
         aspectCache[index] = img.naturalWidth > 0
           ? img.naturalHeight / img.naturalWidth
@@ -57,19 +63,43 @@ console.info(`[site] ${MEMORY_WALL_VERSION}`);
   }
 
   function viewportSize() {
-    const width = wall.clientWidth || window.innerWidth;
+    const section = wall.parentElement;
     const header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-height")) || 54;
-    const height = Math.max(280, window.innerHeight - header);
+    const vv = window.visualViewport;
+    const viewH = Math.round(vv?.height || window.innerHeight);
+    const viewW = Math.round(vv?.width || window.innerWidth);
+
+    const width = Math.max(
+      280,
+      wall.clientWidth || section?.clientWidth || viewW
+    );
+    const height = Math.max(
+      320,
+      section?.clientHeight || 0,
+      wall.clientHeight || 0,
+      viewH - header
+    );
+
     return { width, height };
   }
 
   function measureColumns() {
     const { width, height } = viewportSize();
-    gap = width < 680 ? 4 : GAP;
-    // About half the previous Pinterest card size.
-    const targetCol = width < 680 ? 36 : width < 1100 ? 48 : width < 1500 ? 56 : 62;
-    cols = Math.max(8, Math.floor((width + gap) / (targetCol + gap)));
+    const mobile = isMobileWidth(width);
+    gap = mobile ? 5 : GAP;
+    // Mobile: fewer, larger tiles so photos remain visible on small screens.
+    const targetCol = mobile
+      ? Math.max(96, Math.min(132, width / 3.15))
+      : width < 1100
+        ? 48
+        : width < 1500
+          ? 56
+          : 62;
+    const minCols = mobile ? 3 : 8;
+    cols = Math.max(minCols, Math.floor((width + gap) / (targetCol + gap)));
+    if (mobile) cols = Math.min(cols, 4);
     colW = (width - gap * (cols - 1)) / cols;
+    wall.style.width = "100%";
     wall.style.height = `${height}px`;
     return { width, height };
   }
@@ -115,7 +145,8 @@ console.info(`[site] ${MEMORY_WALL_VERSION}`);
 
   function buildMasonry() {
     const token = ++buildToken;
-    const { height } = measureColumns();
+    const { width, height } = measureColumns();
+    if (width < 40 || height < 40) return;
 
     wall.querySelectorAll(".memory-tile").forEach((node) => node.remove());
     tiles.length = 0;
@@ -123,7 +154,7 @@ console.info(`[site] ${MEMORY_WALL_VERSION}`);
 
     const colHeights = Array.from({ length: cols }, () => 0);
     const takeImage = nextImageStream();
-    const maxItems = cols * 60;
+    const maxItems = cols * (isMobileWidth(width) ? 36 : 60);
     let placed = 0;
 
     while (placed < maxItems) {
@@ -132,7 +163,7 @@ console.info(`[site] ${MEMORY_WALL_VERSION}`);
 
       const imageIndex = takeImage();
       const aspect = aspectCache[imageIndex] || 1;
-      const tileH = Math.max(28, colW * aspect);
+      const tileH = Math.max(isMobileWidth(width) ? 72 : 28, colW * aspect);
 
       if (colHeights[shortest] > 0 && colHeights[shortest] + tileH > height + tileH * 0.35) {
         colHeights[shortest] = height;
@@ -154,7 +185,8 @@ console.info(`[site] ${MEMORY_WALL_VERSION}`);
       const img = document.createElement("img");
       img.src = imageSrc(imageIndex);
       img.alt = "";
-      img.loading = "lazy";
+      img.loading = "eager";
+      img.decoding = "async";
       img.draggable = false;
       button.appendChild(img);
 
@@ -185,7 +217,14 @@ console.info(`[site] ${MEMORY_WALL_VERSION}`);
     if (token !== buildToken) return;
   }
 
+  function selectScale() {
+    return isMobileWidth() ? SELECT_SCALE_MOBILE : SELECT_SCALE;
+  }
+
   function updateTargets() {
+    const repelRadius = isMobileWidth() ? REPEL_RADIUS * 0.72 : REPEL_RADIUS;
+    const repelStrength = isMobileWidth() ? REPEL_STRENGTH * 0.85 : REPEL_STRENGTH;
+
     tiles.forEach((tile) => {
       const centerX = tile.baseX + tile.w / 2;
       const centerY = tile.baseY + tile.h / 2;
@@ -203,10 +242,10 @@ console.info(`[site] ${MEMORY_WALL_VERSION}`);
         if (isSelected) {
           offsetX = 0;
           offsetY = 0;
-        } else if (dist < REPEL_RADIUS) {
-          const t = 1 - dist / REPEL_RADIUS;
+        } else if (dist < repelRadius) {
+          const t = 1 - dist / repelRadius;
           const ease = t * t * (3 - 2 * t);
-          const force = ease * REPEL_STRENGTH;
+          const force = ease * repelStrength;
           offsetX = (dx / dist) * force;
           offsetY = (dy / dist) * force;
         }
@@ -214,7 +253,7 @@ console.info(`[site] ${MEMORY_WALL_VERSION}`);
 
       tile.targetX = tile.baseX + offsetX;
       tile.targetY = tile.baseY + offsetY;
-      tile.targetScale = isSelected ? SELECT_SCALE : 1;
+      tile.targetScale = isSelected ? selectScale() : 1;
       tile.el.classList.toggle("is-active", isSelected);
     });
   }
@@ -251,7 +290,7 @@ console.info(`[site] ${MEMORY_WALL_VERSION}`);
     if (!rafId) rafId = requestAnimationFrame(tick);
   }
 
-  function onPointerMove(event) {
+  function syncPointer(event) {
     const rect = wall.getBoundingClientRect();
     pointerX = event.clientX - rect.left;
     pointerY = event.clientY - rect.top;
@@ -275,12 +314,24 @@ console.info(`[site] ${MEMORY_WALL_VERSION}`);
     }, 140);
   }
 
-  wall.addEventListener("pointermove", onPointerMove, { passive: true });
+  wall.addEventListener("pointerdown", syncPointer, { passive: true });
+  wall.addEventListener("pointermove", syncPointer, { passive: true });
   wall.addEventListener("pointerleave", onPointerLeave);
+  wall.addEventListener("pointercancel", onPointerLeave);
   window.addEventListener("resize", onResize);
+  window.visualViewport?.addEventListener("resize", onResize);
 
-  loadAspects().then(() => {
+  function start() {
     buildMasonry();
     ensureTick();
-  });
+    // Second pass after layout settles (iOS address bar / late width).
+    window.requestAnimationFrame(() => {
+      window.setTimeout(() => {
+        buildMasonry();
+        ensureTick();
+      }, 80);
+    });
+  }
+
+  loadAspects().then(start);
 })();
