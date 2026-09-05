@@ -1,4 +1,4 @@
-const SITE_FOOTER_VERSION = "site-footer.20260903-v4";
+const SITE_FOOTER_VERSION = "site-footer.20260903-v5";
 console.info(`[site] ${SITE_FOOTER_VERSION}`);
 
 (function initSiteFooter() {
@@ -70,9 +70,60 @@ console.info(`[site] ${SITE_FOOTER_VERSION}`);
     else document.body.appendChild(footer);
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", mountFooter, { once: true });
-  } else {
+  function initMobileSocialDockReveal() {
+    const dock = document.querySelector(".social-dock");
+    if (!dock) return;
+
+    const isMobile = () => window.matchMedia("(max-width: 680px)").matches;
+
+    function update() {
+      if (!isMobile()) {
+        dock.classList.remove("is-near-footer");
+        dock.removeAttribute("aria-hidden");
+        return;
+      }
+
+      const work = document.querySelector("#work") || document.querySelector(".video-section");
+      const footer = document.querySelector(".site-rca-footer");
+      if (!footer) {
+        dock.classList.remove("is-near-footer");
+        dock.setAttribute("aria-hidden", "true");
+        return;
+      }
+
+      const viewH = window.innerHeight || 0;
+      const pastWaterfall = work
+        ? work.getBoundingClientRect().bottom <= viewH * 0.95
+        : true;
+      const nearFooter = footer.getBoundingClientRect().top < viewH * 1.25;
+      const show = pastWaterfall && nearFooter;
+      dock.classList.toggle("is-near-footer", show);
+      dock.setAttribute("aria-hidden", show ? "false" : "true");
+    }
+
+    let ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        update();
+      });
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    update();
+  }
+
+  function boot() {
     mountFooter();
+    initMobileSocialDockReveal();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
+  } else {
+    boot();
   }
 })();
