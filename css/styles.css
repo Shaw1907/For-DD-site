@@ -1873,7 +1873,32 @@ html:has(.memory-body) {
   }
 
   .memory-wall {
-    touch-action: manipulation;
+    touch-action: pan-y;
+  }
+
+  /* Mobile Trace: unlock page scroll so the full photo set is reachable */
+  html:has(.memory-body.memory-scrollable),
+  .memory-body.memory-scrollable {
+    height: auto;
+    max-height: none;
+    overflow-x: clip;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+  }
+
+  .memory-body.memory-scrollable .memory-page--wall,
+  .memory-body.memory-scrollable .memory-wall-section {
+    height: auto;
+    min-height: calc(100dvh - var(--header-height));
+    overflow: visible;
+  }
+
+  .memory-body.memory-scrollable .memory-wall {
+    height: auto;
+    min-height: calc(100dvh - var(--header-height));
+    overflow: visible;
+    touch-action: pan-y;
   }
 }
 
