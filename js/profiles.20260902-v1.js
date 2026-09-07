@@ -77,18 +77,29 @@ const PROFILE_DATA = {
     }
   },
   "Rishab Sharma": {
-    email: "",
-    instagram: "",
+    email: "rishab.wrk07@gmail.com",
+    instagram: "bnsh.ra",
     website: "",
-    youtube: "",
+    youtube: "https://www.youtube.com/watch?v=2czUZOAaHt4",
     rednote: "",
     rednoteUrl: "",
-    bio: "",
+    bio: "Rishab Sharma aka Bnshra is a multidisciplinary designer and creative practitioner working across digital media, motion, sound, and interactive experiences. His practice combines visual communication, technology, and research to explore new forms of storytelling and audience engagement. With a professional background in motion design, video, and digital marketing, he works across creative direction, moving image, immersive media, and experimental digital practices. Rishab explores how emerging technologies can reshape cultural narratives and contemporary creative practice.",
     project: {
-      title: "Project coming soon",
+      title: "Remembering Through New Worlds",
       year: "2026",
-      description: "Selected works, process notes, and media for this person will be published here.",
-      youtube: "",
+      description: "Remembering Through New Worlds is a practice-based, decolonising exploration of Bhagirathi, a traditional folk narrative, through speculative and immersive digital media. The project questions how oral traditions and cultural knowledge are preserved, interpreted, and represented, particularly when they are removed from the communities and contexts in which they originate. Rather than treating folklore as a fixed historical artefact, the work approaches it as a living and evolving form of knowledge—one that can be remembered, reinterpreted, and carried into new futures. Through sound, moving image, music, and spatial projection, Bhagirathi is transformed into an immersive speculative world. The project seeks to create space for alternative ways of knowing and remembering, challenging dominant systems of cultural preservation while considering how digital media can participate in the continuation of oral traditions.",
+      youtube: "https://www.youtube.com/watch?v=2czUZOAaHt4",
+      images: {
+        portrait: "media/people/rishab-sharma/portrait.jpg",
+        featured: "media/people/rishab-sharma/featured.jpg",
+        gallery: [
+          "media/people/rishab-sharma/gallery-01.jpg",
+          "media/people/rishab-sharma/gallery-02.jpg",
+          "media/people/rishab-sharma/gallery-03.jpg",
+          "media/people/rishab-sharma/gallery-04.jpg",
+          "media/people/rishab-sharma/gallery-05.jpg",
+        ],
+      },
       imagesDrive: "",
     }
   },
