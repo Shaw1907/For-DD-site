@@ -863,6 +863,11 @@ const PROFILE_DATA = {
       year: "2026",
       description: "Selected works, process notes, and media for this person will be published here.",
       youtube: "",
+      images: {
+        portrait: "media/people/raghav-kapoor/portrait.jpg",
+        featured: "media/people/raghav-kapoor/featured.jpg",
+        gallery: [],
+      },
       imagesDrive: "",
     }
   },
