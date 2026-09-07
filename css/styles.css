@@ -197,7 +197,6 @@ html:has(.memory-body) {
   transform-origin: center center;
   will-change: transform;
   pointer-events: none;
-  contain: layout style paint;
 }
 
 .memory-tile img {
@@ -221,17 +220,19 @@ html:has(.memory-body) {
   background: #808080;
   mix-blend-mode: saturation;
   opacity: 1;
-  transition: opacity 140ms ease;
+  transition: opacity 120ms ease;
   pointer-events: none;
 }
 
 .memory-tile.is-active {
   z-index: 2;
   border-radius: 4px;
+  will-change: width, height, transform;
 }
 
 .memory-tile.is-active::after {
   opacity: 0;
+  visibility: hidden;
 }
 
 .memory-tile.is-active img {
